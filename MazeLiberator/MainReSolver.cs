@@ -10,7 +10,7 @@ namespace MazeLiberator
                                 new int[] { -1, 0 },
                                 new int[] { 0, -1 },
                                 new int[] { 0, 1 },
-                                new int[] { 1, 0 } 
+                                new int[] { 1, 0 }
         };
 
         public static int[][] GetMazeArrayFromPanel(Panel panelWithButtons, int columns, int rows)
@@ -18,30 +18,32 @@ namespace MazeLiberator
             //panelWithButtons
             int[][] array = new int[columns][];
 
-            for (int i = 0; i < panelWithButtons.Controls.Count -1; i++)
+            for (int i = 0; i < panelWithButtons.Controls.Count - 1; i++)
             {
                 var rowNumber = Math.Abs(i % rows);
-                decimal colNumberDec= i / columns;
-                var colNumber = (int) Math.Floor(colNumberDec);
+                decimal colNumberDec = i / columns;
+                var colNumber = (int)Math.Floor(colNumberDec);
 
                 //Initialise row array
-                if (array[rowNumber]==null)
+                if (array[rowNumber] == null)
                 {
                     array[rowNumber] = new int[rows];
-                }                
+                }
 
                 int valueToSet = 0;
-                switch (panelWithButtons.Controls[i].Tag)
+                var button = (TileButton)panelWithButtons.Controls[i];
+
+                if (button.IsWallTile)
                 {
-                    case "x":
-                        valueToSet = -1; //Wall
-                        break;
-                    case "1":
-                        valueToSet = 1; //Start Point
-                        break;
-                    case "2":
-                        valueToSet = -3; //Out point
-                        break;                    
+                    valueToSet = -1;
+                }
+                else if (button.IsInitialTile)
+                {
+                    valueToSet = 1;
+                }
+                else if (button.IsFinalTile)
+                {
+                    valueToSet = -3;
                 }
 
                 array[colNumber][rowNumber] = valueToSet;
@@ -112,7 +114,7 @@ namespace MazeLiberator
         }
 
         public static void MainSolver(int[][] array)
-        {            
+        {
             // Get start position.
             for (int i = 0; i < array.Length; i++)
             {
@@ -130,35 +132,6 @@ namespace MazeLiberator
                 }
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -216,16 +189,15 @@ namespace MazeLiberator
             // Read user input and evaluate maze.
             while (true)
             {
-                string line = Console.ReadLine();
                 int result = ModifyPath(array);
                 if (result == 1)
                 {
-                    MessageBox.Show($"DONE: {count} moves");
+                    MessageBox.Show($"The maze can be solved in {count} moves");
                     break;
                 }
                 else if (result == -1)
                 {
-                    MessageBox.Show($"FAIL: {count} moves");
+                    MessageBox.Show($"Sorry but the maze cannot be solved. Non-exit path found in: {count} moves");
                     break;
                 }
                 count++;
