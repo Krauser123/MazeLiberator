@@ -36,66 +36,77 @@ namespace MazeLiberator
         public FormMain()
         {
             InitializeComponent();
+            LoadImagesForTiles();
         }
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            LoadImagesForTiles();
-            GetSetupByDifficulty();
             CreateControls();
         }
 
+        /// <summary>
+        /// This event fire each time that user click on any button on panelMain
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TileButton_Click(object sender, EventArgs e)
         {
             //Get the button that fire the event
             TileButton btnClicked = (TileButton)sender;
-
-            if (btnClicked.BackgroundImage == null)
-            {
-                //Set as wall
-                btnClicked.BackgroundImage = TileBlock;
-                btnClicked.SetAsWallTitle();
-            }
-            else if ((btnClicked.BackgroundImage == TileBlock || btnClicked.BackgroundImage == InitialTile) && btnInitial == null)
-            {
-                //Check if exist a previous Initial Tile
-                if (btnInitial != null)
-                {
-                    btnInitial.BackgroundImage = null;
-                    btnInitial.SetAsEmptyTitle();
-                }
-
-                //Set as Initial Tile
-                btnClicked.BackgroundImage = InitialTile;
-                btnClicked.SetAsInitialTitle();
-                btnInitial = btnClicked;
-            }
-            else if ((btnClicked.BackgroundImage == InitialTile || btnClicked.BackgroundImage == TileBlock) && btnFinal == null)
-            {
-                //Check if exist a previous Final Tile
-                if (btnFinal != null)
-                {
-                    btnFinal.BackgroundImage = null;
-                    btnFinal.SetAsEmptyTitle();
-                }
-
-                btnClicked.BackgroundImage = EndTile;
-                btnClicked.SetAsFinalTitle();
-                btnFinal = btnClicked;
-            }
-            else
-            {
-                btnClicked.SetAsEmptyTitle();
-                btnClicked.BackgroundImage = null;
-            }
+            ChangebuttonState(btnClicked);
         }
 
-        private void changebuttonState(Button sender)
+        #region ToolStrip Events
+
+        private void NewMazeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Get the button that fire the event
-            TileButton btnClicked = (TileButton)sender;
+            CreateMaze();
+        }
 
+        private void SolveCurrentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SolverLabyrinth();
+        }
 
+        private void HelpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string caption = "Click on tiles to change his behavior." + Environment.NewLine + Environment.NewLine + "Tile Green: Entrance point." +
+                                Environment.NewLine + "Tile Race Flag: Escape point" + Environment.NewLine + "Tile Gray: Wall";
+            MessageBox.Show(caption, "Help MazeLiberator", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void EasylToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UnselectAllDifficultyToolStrip();
+            easylToolStripMenuItem.Checked = true;
+            selectedDifficulty = Difficulty.Easy;
+            CreateControls();
+        }
+
+        private void MediumToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UnselectAllDifficultyToolStrip();
+            mediumToolStripMenuItem.Checked = true;
+            selectedDifficulty = Difficulty.Medium;
+            CreateControls();
+        }
+
+        private void HardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UnselectAllDifficultyToolStrip();
+            hardToolStripMenuItem.Checked = true;
+            selectedDifficulty = Difficulty.Hard;
+            CreateControls();
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Handle the 4 types of tile (Empty, Wall, Initial and Final)
+        /// </summary>
+        /// <param name="btnClicked"></param>
+        private void ChangebuttonState(TileButton btnClicked)
+        {
             //If empty can set as Wall
             if (btnClicked.IsEmptyTitle())
             {
@@ -139,53 +150,12 @@ namespace MazeLiberator
                 btnClicked.BackgroundImage = EndTile;
                 btnClicked.SetAsFinalTitle();
                 btnFinal = btnClicked;
-            }            
+            }
             else
             {
                 btnClicked.SetAsEmptyTitle();
             }
         }
-
-        #region ToolStrip Events
-
-        private void NewMazeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CreateMaze();
-        }
-
-        private void SolveCurrentToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SolverLabyrinth();
-        }
-
-        private void HelpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string caption = "Click on tiles to change his behavior." + Environment.NewLine + Environment.NewLine + "Tile Green: Entrance point." + Environment.NewLine + "Tile Black: Escape point" + Environment.NewLine + "Tile Blue: Wall";
-            MessageBox.Show(caption, "Help MazeLiberator", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void EasylToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            UnselectAllDifficultyToolStrip();
-            easylToolStripMenuItem.Checked = true;
-            selectedDifficulty = Difficulty.Easy;
-        }
-
-        private void MediumToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            UnselectAllDifficultyToolStrip();
-            mediumToolStripMenuItem.Checked = true;
-            selectedDifficulty = Difficulty.Medium;
-        }
-
-        private void HardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            UnselectAllDifficultyToolStrip();
-            hardToolStripMenuItem.Checked = true;
-            selectedDifficulty = Difficulty.Hard;
-        }
-
-        #endregion
 
 
         /// <summary>
@@ -205,6 +175,9 @@ namespace MazeLiberator
             GenerateWalls();
         }
 
+        /// <summary>
+        /// Generate initial and final tiles
+        /// </summary>
         private void GenerateInitialAndFinalButton()
         {
             //Generate initial button
@@ -227,6 +200,9 @@ namespace MazeLiberator
             btnFinal.SetAsFinalTitle();
         }
 
+        /// <summary>
+        /// Generate walls randomly, not checks if the path can be solved
+        /// </summary>
         private void GenerateWalls()
         {
             int numOfWalls = iTotalButtons / 3;
@@ -279,7 +255,7 @@ namespace MazeLiberator
                     break;
 
                 case Difficulty.Hard:
-                    increase = 10;
+                    increase = 20;
                     break;
             }
 
@@ -331,8 +307,11 @@ namespace MazeLiberator
         /// <summary>
         /// Create and asign controls to main form
         /// </summary>
-        public void CreateControls()
+        private void CreateControls()
         {
+            //Get setup for selected difficulty
+            GetSetupByDifficulty();
+
             //Clean panel and set enabled true
             mainPanel.Controls.Clear();
             mainPanel.Enabled = true;
@@ -342,9 +321,10 @@ namespace MazeLiberator
             int iLocationB = 0;
             int sideSizeForButton = increase;
 
+            //Get number of button to generate
             iTotalButtons = (pnlSize / increase) * iBtnPerRow;
 
-            for (int i = 0; i <= iTotalButtons; i++)
+            for (int i = 0; i < iTotalButtons; i++)
             {
                 TileButton btnToAsign = new TileButton
                 {
@@ -354,15 +334,16 @@ namespace MazeLiberator
 
                 //Add events to button
                 btnToAsign.Click += new EventHandler(TileButton_Click);
-
-                mainPanel.Controls.Add(btnToAsign);
-                Point ptoLocation = new Point(iLocationA, iLocationB);
-                btnToAsign.Location = ptoLocation;
+                
+                btnToAsign.Location = new Point(iLocationA, iLocationB);
                 btnToAsign.Text = string.Empty;
                 btnToAsign.FlatStyle = FlatStyle.Flat;
-                
+
                 //Set Size
                 btnToAsign.Size = new Size(sideSizeForButton, sideSizeForButton);
+
+                //Add to the panel
+                mainPanel.Controls.Add(btnToAsign);
 
                 //Increase count of button set in panel
                 iCountParcial++;
@@ -409,7 +390,7 @@ namespace MazeLiberator
 
             if (btnFinal == null || btnFinal.BackgroundImage != EndTile)
             {
-                warningMessage += "End point required(Black)";
+                warningMessage += "End point required(Race Flag)";
             }
 
             if (warningMessage != null)
@@ -420,8 +401,6 @@ namespace MazeLiberator
             return warningMessage;
         }
 
-
-        //Dibuja el camino basandose en una lista genérica
         private void DrawWay(List<TileButton> Camino)
         {
             foreach (Button btnActualCamino in Camino)

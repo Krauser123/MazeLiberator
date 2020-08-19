@@ -40,7 +40,7 @@ namespace MazeLiberator
 
         public bool IsEmptyTitle()
         {
-            return !IsWallTile || !IsInitialTile || !IsFinalTile;
+            return !IsWallTile && !IsInitialTile && !IsFinalTile;
         }
     }
 }
