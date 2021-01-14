@@ -32,7 +32,6 @@ namespace MazeLiberator
 
         Random randomize;
 
-
         public FormMain()
         {
             InitializeComponent();
@@ -156,7 +155,6 @@ namespace MazeLiberator
                 btnClicked.SetAsEmptyTitle();
             }
         }
-
 
         /// <summary>
         /// Create maze
