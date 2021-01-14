@@ -27,7 +27,6 @@ namespace MazeLiberator
             IsWallTile = false;
             IsInitialTile = false;
             IsFinalTile = true;
-
         }
 
         public void SetAsEmptyTitle()
