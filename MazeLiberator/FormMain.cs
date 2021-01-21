@@ -32,7 +32,6 @@ namespace MazeLiberator
 
         Random randomize;
 
-
         public FormMain()
         {
             InitializeComponent();
@@ -157,7 +156,6 @@ namespace MazeLiberator
             }
         }
 
-
         /// <summary>
         /// Create maze
         /// </summary>
@@ -217,8 +215,8 @@ namespace MazeLiberator
                     btnWall.SetAsWallTitle();
                     wallCount++;
                 }
-
-            } while (wallCount < numOfWalls);
+            }
+            while (wallCount < numOfWalls);
         }
 
         /// <summary>
@@ -237,7 +235,6 @@ namespace MazeLiberator
             btnInitial = null;
             btnFinal = null;
         }
-
 
         /// <summary>
         /// According to the difficulty We change the size of button (by the way, the number of button generated)
@@ -263,7 +260,6 @@ namespace MazeLiberator
             pnlSize = mainPanel.Height;
             iBtnPerRow = (pnlSize / increase);
         }
-
 
         /// <summary>
         /// Set styles and images to controls
@@ -302,7 +298,6 @@ namespace MazeLiberator
                 MessageBox.Show("An error occurred while loading images", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         /// <summary>
         /// Create and asign controls to main form
