@@ -46,7 +46,7 @@
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainPanel.Location = new System.Drawing.Point(0, 24);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(520, 515);
+            this.mainPanel.Size = new System.Drawing.Size(499, 508);
             this.mainPanel.TabIndex = 0;
             // 
             // menuStripMainForm
@@ -58,7 +58,7 @@
             this.helpToolStripMenuItem});
             this.menuStripMainForm.Location = new System.Drawing.Point(0, 0);
             this.menuStripMainForm.Name = "menuStripMainForm";
-            this.menuStripMainForm.Size = new System.Drawing.Size(520, 24);
+            this.menuStripMainForm.Size = new System.Drawing.Size(499, 24);
             this.menuStripMainForm.TabIndex = 1;
             this.menuStripMainForm.Text = "menuStripMainForm";
             // 
@@ -91,7 +91,7 @@
             // easylToolStripMenuItem
             // 
             this.easylToolStripMenuItem.Name = "easylToolStripMenuItem";
-            this.easylToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.easylToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.easylToolStripMenuItem.Text = "Easy";
             this.easylToolStripMenuItem.Click += new System.EventHandler(this.EasylToolStripMenuItem_Click);
             // 
@@ -100,14 +100,14 @@
             this.mediumToolStripMenuItem.Checked = true;
             this.mediumToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mediumToolStripMenuItem.Name = "mediumToolStripMenuItem";
-            this.mediumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.mediumToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.mediumToolStripMenuItem.Text = "Medium";
             this.mediumToolStripMenuItem.Click += new System.EventHandler(this.MediumToolStripMenuItem_Click);
             // 
             // hardToolStripMenuItem
             // 
             this.hardToolStripMenuItem.Name = "hardToolStripMenuItem";
-            this.hardToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hardToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.hardToolStripMenuItem.Text = "Hard";
             this.hardToolStripMenuItem.Click += new System.EventHandler(this.HardToolStripMenuItem_Click);
             // 
@@ -122,9 +122,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(520, 539);
+            this.ClientSize = new System.Drawing.Size(499, 532);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.menuStripMainForm);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStripMainForm;
             this.MaximizeBox = false;

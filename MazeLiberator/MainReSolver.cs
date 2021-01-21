@@ -7,7 +7,7 @@ namespace MazeLiberator
     /// <summary>
     /// Original by: https://www.dotnetperls.com/maze
     /// </summary>
-    class MainReSolver
+    internal static class MainReSolver
     {
         static int[][] _moves = {
                                 new int[] { -1, 0 },
@@ -24,8 +24,8 @@ namespace MazeLiberator
             for (int i = 0; i < panelWithButtons.Controls.Count - 1; i++)
             {
                 var rowNumber = Math.Abs(i % rows);
-                decimal colNumberDec = i / columns;
-                var colNumber = (int)Math.Floor(colNumberDec);
+                int colNumberDec = i / columns;
+                var colNumber = colNumberDec;
 
                 //Initialise row array
                 if (array[rowNumber] == null)
@@ -57,7 +57,7 @@ namespace MazeLiberator
             return array;
         }
 
-        static bool IsValidPos(int[][] array, int row, int newRow, int newColumn)
+        private static bool IsValidPos(int[][] array, int row, int newRow, int newColumn)
         {
             if (newRow < 0) return false;
 
@@ -69,7 +69,7 @@ namespace MazeLiberator
             return true;
         }
 
-        static int ModifyPath(int[][] array)
+        private static int ModifyPath(int[][] array)
         {
             // Loop over rows and then columns.
             for (int rowIndex = 0; rowIndex < array.Length; rowIndex++)
