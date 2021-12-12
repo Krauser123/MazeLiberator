@@ -64,13 +64,13 @@ namespace MazeLiberator
 
         private void SolveCurrentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SolverLabyrinth();
+            SolveLabyrinth();
         }
 
         private void HelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string caption = "Click on tiles to change his behavior." + Environment.NewLine + Environment.NewLine + "Tile Green: Entrance point." +
-                                Environment.NewLine + "Tile Race Flag: Escape point" + Environment.NewLine + "Tile Gray: Wall";
+                                Environment.NewLine + "Tile Race Flag: Escape point" + Environment.NewLine + "Tile X Gray: Wall";
             MessageBox.Show(caption, "Help MazeLiberator", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -360,13 +360,14 @@ namespace MazeLiberator
         /// <summary>
         /// Launch the solver for current maze
         /// </summary>
-        private void SolverLabyrinth()
+        private void SolveLabyrinth()
         {
             if (IsMazeRight() == null)
             {
                 //Transform buttons to array
                 var arr = MainReSolver.GetMazeArrayFromPanel(panelWithButtons: mainPanel, iBtnPerRow, iBtnPerRow);
                 MainReSolver.BadMainSolver(arr);
+                //DrawSolved
             }
         }
 

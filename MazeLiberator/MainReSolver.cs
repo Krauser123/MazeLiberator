@@ -32,10 +32,13 @@ namespace MazeLiberator
                 {
                     array[rowNumber] = new int[rows];
                 }
-
-                int valueToSet = 0;
+                
+                //Get current button
                 var button = (TileButton)panelWithButtons.Controls[i];
 
+                //Check type
+                int valueToSet = 0;
+                
                 if (button.IsWallTile)
                 {
                     valueToSet = -1;
@@ -57,6 +60,14 @@ namespace MazeLiberator
             return array;
         }
 
+        /// <summary>
+        /// Check if current position is valid
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="row"></param>
+        /// <param name="newRow"></param>
+        /// <param name="newColumn"></param>
+        /// <returns></returns>
         private static bool IsValidPos(int[][] array, int row, int newRow, int newColumn)
         {
             if (newRow < 0) return false;
@@ -66,6 +77,7 @@ namespace MazeLiberator
             if (newRow >= array.Length) return false;
 
             if (newColumn >= array[row].Length) return false;
+
             return true;
         }
 
