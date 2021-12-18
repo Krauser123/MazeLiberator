@@ -6,7 +6,7 @@ A old project made by fun **(WinForm rules!)**. Created in VS2013, The idea was 
 ### Screenshots
 
 #### New Maze
-![Screenshoot1](https://github.com/Krauser123/MazeLiberator/blob/master/MazeLiberator/Screenshoots/Cap01.jpg)
+![Screenshoot1](https://github.com/Krauser123/MazeLiberator/blob/master/MazeLiberator/Screenshots/Cap01.jpg)
 
 #### Solved Maze
-![Screenshoot2](https://github.com/Krauser123/MazeLiberator/blob/master/MazeLiberator/Screenshoots/Cap02.jpg)
+![Screenshoot2](https://github.com/Krauser123/MazeLiberator/blob/master/MazeLiberator/Screenshots/Cap01.jpg)
