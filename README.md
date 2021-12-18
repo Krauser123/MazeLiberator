@@ -9,4 +9,4 @@ A old project made by fun **(WinForm rules!)**. Created in VS2013, The idea was 
 ![Screenshoot1](https://github.com/Krauser123/MazeLiberator/blob/master/MazeLiberator/Screenshots/Cap01.jpg)
 
 #### Solved Maze
-![Screenshoot2](https://github.com/Krauser123/MazeLiberator/blob/master/MazeLiberator/Screenshots/Cap01.jpg)
+![Screenshoot2](https://github.com/Krauser123/MazeLiberator/blob/master/MazeLiberator/Screenshots/Cap02.jpg)
