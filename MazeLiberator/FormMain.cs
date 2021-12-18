@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,19 +6,14 @@ namespace MazeLiberator
 {
     public partial class FormMain : Form
     {
-        enum Difficulty
-        {
-            Easy = 1,
-            Medium = 2,
-            Hard = 3
-        }
-
         Difficulty selectedDifficulty = Difficulty.Medium;
 
-        int pnlSize;
+        int PnlSize;
         int increase;
-        int iBtnPerRow;
-        int iTotalButtons;
+        int NumButtonsPerRow;
+        int TotalNumOfButtons;
+
+        readonly string ButtonPrefix = "btnMaze_";
 
         //Images
         Bitmap TileBlock;
@@ -69,32 +63,39 @@ namespace MazeLiberator
 
         private void HelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string caption = "Click on tiles to change his behavior." + Environment.NewLine + Environment.NewLine + "Tile Green: Entrance point." +
-                                Environment.NewLine + "Tile Race Flag: Escape point" + Environment.NewLine + "Tile X Gray: Wall";
-            MessageBox.Show(caption, "Help MazeLiberator", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string caption = "Click on tiles to change his behavior." + Environment.NewLine + Environment.NewLine
+                            + "Green Tile: Entrance point." + Environment.NewLine +
+                            "Race Flag Tile: Escape point" + Environment.NewLine +
+                            "X Gray Tile: Wall" + Environment.NewLine +
+                            "Red Tile: Solve attemps";
+
+            MessageBox.Show(caption, "MazeLiberator Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void EasylToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UnselectAllDifficultyToolStrip();
-            easylToolStripMenuItem.Checked = true;
             selectedDifficulty = Difficulty.Easy;
-            CreateControls();
+            CommonToolStripAction(easylToolStripMenuItem);
         }
 
         private void MediumToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UnselectAllDifficultyToolStrip();
-            mediumToolStripMenuItem.Checked = true;
             selectedDifficulty = Difficulty.Medium;
-            CreateControls();
+            CommonToolStripAction(mediumToolStripMenuItem);
         }
 
         private void HardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UnselectAllDifficultyToolStrip();
-            hardToolStripMenuItem.Checked = true;
             selectedDifficulty = Difficulty.Hard;
+            CommonToolStripAction(hardToolStripMenuItem);
+        }
+
+        private void CommonToolStripAction(ToolStripMenuItem toolStripMenuItemToMark)
+        {
+            UnselectAllDifficultyToolStrip();
+            toolStripMenuItemToMark.Checked = true;
+            btnInitial = null;
+            btnFinal = null;
             CreateControls();
         }
 
@@ -179,7 +180,7 @@ namespace MazeLiberator
         private void GenerateInitialAndFinalButton()
         {
             //Generate initial button
-            int initialButtonIndex = randomize.Next(0, iTotalButtons);
+            int initialButtonIndex = randomize.Next(0, TotalNumOfButtons);
             btnInitial = (TileButton)mainPanel.Controls[initialButtonIndex];
             btnInitial.BackgroundImage = InitialTile;
             btnInitial.SetAsInitialTitle();
@@ -188,7 +189,7 @@ namespace MazeLiberator
             int finalButtonIndex;
             do
             {
-                finalButtonIndex = randomize.Next(0, iTotalButtons);
+                finalButtonIndex = randomize.Next(0, TotalNumOfButtons);
             }
             // We need check that we don't use the same button and also that we have a minimun difference
             while (finalButtonIndex == initialButtonIndex || Math.Abs(initialButtonIndex - finalButtonIndex) < 45);
@@ -203,11 +204,11 @@ namespace MazeLiberator
         /// </summary>
         private void GenerateWalls()
         {
-            int numOfWalls = iTotalButtons / 3;
+            int numOfWalls = TotalNumOfButtons / 3;
             int wallCount = 0;
             do
             {
-                int wallIndex = randomize.Next(0, iTotalButtons);
+                int wallIndex = randomize.Next(0, TotalNumOfButtons);
                 TileButton btnWall = (TileButton)mainPanel.Controls[wallIndex];
                 if (btnWall.IsEmptyTitle())
                 {
@@ -239,7 +240,7 @@ namespace MazeLiberator
         /// <summary>
         /// According to the difficulty We change the size of button (by the way, the number of button generated)
         /// </summary>
-        private void GetSetupByDifficulty()
+        private void SetSetupByDifficulty()
         {
             switch (selectedDifficulty)
             {
@@ -257,8 +258,8 @@ namespace MazeLiberator
             }
 
             //Set number of button per row
-            pnlSize = mainPanel.Height;
-            iBtnPerRow = (pnlSize / increase);
+            PnlSize = mainPanel.Height;
+            NumButtonsPerRow = (PnlSize / increase);
         }
 
         /// <summary>
@@ -287,8 +288,8 @@ namespace MazeLiberator
                 styleOriginal = new Bitmap(sImagePath);
 
                 //srcRectNone = new System.Drawing.Rectangle(0, 0, w, h);
-                srcRectBlock = new System.Drawing.Rectangle(w, 0, w, h);
-                srcRectTileWay = new System.Drawing.Rectangle(w + w, 0, w, h);
+                srcRectBlock = new Rectangle(w, 0, w, h);
+                srcRectTileWay = new Rectangle(w + w, 0, w, h);
 
                 InitialTile = (Bitmap)styleOriginal.Clone(srcRectBlock, styleOriginal.PixelFormat);
                 EndTile = (Bitmap)styleOriginal.Clone(srcRectTileWay, styleOriginal.PixelFormat);
@@ -305,7 +306,7 @@ namespace MazeLiberator
         private void CreateControls()
         {
             //Get setup for selected difficulty
-            GetSetupByDifficulty();
+            SetSetupByDifficulty();
 
             //Clean panel and set enabled true
             mainPanel.Controls.Clear();
@@ -317,19 +318,19 @@ namespace MazeLiberator
             int sideSizeForButton = increase;
 
             //Get number of button to generate
-            iTotalButtons = (pnlSize / increase) * iBtnPerRow;
+            TotalNumOfButtons = (PnlSize / increase) * NumButtonsPerRow;
 
-            for (int i = 0; i < iTotalButtons; i++)
+            for (int i = 0; i < TotalNumOfButtons; i++)
             {
                 TileButton btnToAsign = new TileButton
                 {
-                    Name = "btnMaze_" + i,
+                    Name = ButtonPrefix + i,
                     BackgroundImageLayout = ImageLayout.Stretch
                 };
 
                 //Add events to button
                 btnToAsign.Click += new EventHandler(TileButton_Click);
-                
+
                 btnToAsign.Location = new Point(iLocationA, iLocationB);
                 btnToAsign.Text = string.Empty;
                 btnToAsign.FlatStyle = FlatStyle.Flat;
@@ -344,7 +345,7 @@ namespace MazeLiberator
                 iCountParcial++;
 
                 //Increase referencial location point
-                if (iCountParcial < iBtnPerRow)
+                if (iCountParcial < NumButtonsPerRow)
                 {
                     iLocationA += increase;
                 }
@@ -365,9 +366,39 @@ namespace MazeLiberator
             if (IsMazeRight() == null)
             {
                 //Transform buttons to array
-                var arr = MainReSolver.GetMazeArrayFromPanel(panelWithButtons: mainPanel, iBtnPerRow, iBtnPerRow);
-                MainReSolver.BadMainSolver(arr);
+                var arr = MainReSolver.GetMazeArrayFromPanel(panelWithButtons: mainPanel, NumButtonsPerRow, NumButtonsPerRow);
+                arr = MainReSolver.BadMainSolver(arr);
+
                 //DrawSolved
+                DrawSolvedArray(arr);
+            }
+        }
+
+        private void DrawSolvedArray(int[][] arr)
+        {
+            int counter;
+
+            for (int row = 0; row < NumButtonsPerRow; row++)
+            {
+                for (int column = 0; column < NumButtonsPerRow; column++)
+                {
+                    if (row == 0)
+                    {
+                        counter = row + column;
+                    }
+                    else
+                    {
+                        counter = (row * 10) + column;
+                    }
+
+                    //Get current button
+                    var button = (TileButton)mainPanel.Controls[counter];
+                    var valueInArray = arr[row][column];
+                    if (valueInArray > 1)
+                    {
+                        button.BackgroundImage = TileWay;
+                    }
+                }
             }
         }
 
@@ -381,12 +412,12 @@ namespace MazeLiberator
 
             if (btnInitial == null || btnInitial.BackgroundImage != InitialTile)
             {
-                warningMessage = "A starting point is required (Green)" + Environment.NewLine;
+                warningMessage = "A starting point is required (Green Tile)" + Environment.NewLine;
             }
 
             if (btnFinal == null || btnFinal.BackgroundImage != EndTile)
             {
-                warningMessage += "End point required(Race Flag)";
+                warningMessage += "End point required(Race Flag Tile)";
             }
 
             if (warningMessage != null)
@@ -395,14 +426,6 @@ namespace MazeLiberator
             }
 
             return warningMessage;
-        }
-
-        private void DrawWay(List<TileButton> Camino)
-        {
-            foreach (Button btnActualCamino in Camino)
-            {
-                btnActualCamino.BackgroundImage = TileWay;
-            }
         }
 
         /// <summary>

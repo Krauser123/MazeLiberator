@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Difficulty.cs" />
     <Compile Include="MainReSolver.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
@@ -98,6 +99,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\Style3.png" />
+    <Content Include="Screenshots\Cap01.jpg" />
+    <Content Include="Screenshots\Cap02.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

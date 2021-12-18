@@ -9,6 +9,10 @@ namespace MazeLiberator
     /// </summary>
     internal static class MainReSolver
     {
+        const int WallTile = -1;
+        const int InitialTile = 1;
+        const int FinalTile = -3;
+
         static int[][] _moves = {
                                 new int[] { -1, 0 },
                                 new int[] { 0, -1 },
@@ -32,24 +36,24 @@ namespace MazeLiberator
                 {
                     array[rowNumber] = new int[rows];
                 }
-                
+
                 //Get current button
                 var button = (TileButton)panelWithButtons.Controls[i];
 
                 //Check type
                 int valueToSet = 0;
-                
+
                 if (button.IsWallTile)
                 {
-                    valueToSet = -1;
+                    valueToSet = WallTile;
                 }
                 else if (button.IsInitialTile)
                 {
-                    valueToSet = 1;
+                    valueToSet = InitialTile;
                 }
                 else if (button.IsFinalTile)
                 {
-                    valueToSet = -3;
+                    valueToSet = FinalTile;
                 }
 
                 array[colNumber][rowNumber] = valueToSet;
@@ -81,7 +85,7 @@ namespace MazeLiberator
             return true;
         }
 
-        private static int ModifyPath(int[][] array)
+        private static int ModifyPath(ref int[][] array)
         {
             // Loop over rows and then columns.
             for (int rowIndex = 0; rowIndex < array.Length; rowIndex++)
@@ -106,6 +110,7 @@ namespace MazeLiberator
                                 {
                                     // Travel to a new square for the first time and record the count of total moves to it.
                                     array[newRow][newColumn] = value + 1;
+
                                     // Move has been performed.
                                     return 0;
                                 }
@@ -123,14 +128,14 @@ namespace MazeLiberator
             return -1;
         }
 
-        public static void BadMainSolver(int[][] array)
+        public static int[][] BadMainSolver(int[][] array)
         {
             int count = 0;
 
             // Read user input and evaluate maze.
             while (true)
             {
-                int result = ModifyPath(array);
+                int result = ModifyPath(ref array);
                 if (result == 1)
                 {
                     MessageBox.Show($"The maze can be solved in {count} attempts", "MazeLiberator", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -143,6 +148,8 @@ namespace MazeLiberator
                 }
                 count++;
             }
+
+            return array;
         }
     }
 }
