@@ -370,11 +370,11 @@ namespace MazeLiberator
                 arr = MainReSolver.BadMainSolver(arr);
 
                 //DrawSolved
-                DrawSolvedArray(arr);
+                DrawSolvedPath(arr);
             }
         }
 
-        private void DrawSolvedArray(int[][] arr)
+        private void DrawSolvedPath(int[][] arr)
         {
             int counter;
 
@@ -388,7 +388,7 @@ namespace MazeLiberator
                     }
                     else
                     {
-                        counter = (row * 10) + column;
+                        counter = (row * NumButtonsPerRow) + column;
                     }
 
                     //Get current button
