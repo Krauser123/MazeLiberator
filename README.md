@@ -12,7 +12,7 @@ You can change tiles mading click on it.
 ### Screenshots
 
 #### New Maze
-![Screenshoot1](https://github.com/Krauser123/MazeLiberator/blob/master/MazeLiberator/Screenshoots/Cap01.jpg)
+![Screenshoot1](https://github.com/Krauser123/MazeLiberator/blob/master/MazeLiberator/Screenshots/Cap01.jpg)
 
 #### Solved Maze
-![Screenshoot2](https://github.com/Krauser123/MazeLiberator/blob/master/MazeLiberator/Screenshoots/Cap02.jpg)
+![Screenshoot2](https://github.com/Krauser123/MazeLiberator/blob/master/MazeLiberator/Screenshots/Cap02.jpg)
